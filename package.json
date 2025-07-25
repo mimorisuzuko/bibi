@@ -1,0 +1,40 @@
+{
+  "name": "@mimorisuzuko/bibi",
+  "version": "0.0.0",
+  "description": "WIP",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mimorisuzuko/bibi.git"
+  },
+  "author": {
+    "email": "m@mimorisuzu.co",
+    "name": "Hiroki Usuba",
+    "url": "https://mimorisuzu.co"
+  },
+  "scripts": {},
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.1.2",
+    "@happy-dom/global-registrator": "18.0.1",
+    "@testing-library/dom": "10.4.0",
+    "@testing-library/react": "16.3.0",
+    "@types/bun": "1.2.19",
+    "@types/react": "19.1.8",
+    "@typescript/native-preview": "7.0.0-dev.20250725.1",
+    "react": "19.1.0",
+    "type-fest": "4.41.0",
+    "zod": "4.0.10"
+  },
+  "dependencies": {
+    "es-toolkit": "^1.39.8"
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "zod": ">= 4"
+  }
+}

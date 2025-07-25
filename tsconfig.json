@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+      "skipLibCheck": true,
+      "target": "es2022",
+      "strict": true,
+      "outDir": "dist",
+      "declaration": true,
+      "moduleResolution": "nodenext",
+      "module": "nodenext"
+    },
+    "include": ["src/**/*.ts"],
+    "exclude": ["dist"]
+  }
