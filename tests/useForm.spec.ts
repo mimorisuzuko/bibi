@@ -38,7 +38,7 @@ describe("submit, valid, and getError", () => {
 		);
 
 		act(() => {
-			result.current.submit(() => {});
+			result.current.submit(() => {})();
 		});
 
 		expect(result.current.valid).toBe(true);
@@ -66,7 +66,7 @@ describe("submit, valid, and getError", () => {
 		);
 
 		act(() => {
-			result.current.submit(() => {});
+			result.current.submit(() => {})();
 		});
 
 		expect(result.current.valid).toBe(false);
@@ -130,7 +130,7 @@ describe("Nested values", () => {
 		);
 
 		act(() => {
-			result.current.submit(() => {});
+			result.current.submit(() => {})();
 		});
 
 		expect(result.current.valid).toBe(false);
@@ -153,7 +153,7 @@ describe("Nested values", () => {
 		);
 
 		act(() => {
-			result.current.submit(() => {});
+			result.current.submit(() => {})();
 		});
 
 		expect(result.current.valid).toBe(false);

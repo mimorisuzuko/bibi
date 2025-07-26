@@ -14,8 +14,14 @@ export const useForm = <T extends z.ZodObject>(args: {
 
 	const [hasSubmitted, setHasSubmitted] = useState(false);
 	const submit = (f: () => void) => {
-		f();
-		setHasSubmitted(true);
+		return (e?: any) => {
+			if (e instanceof Event) {
+				e.preventDefault();
+			}
+
+			f();
+			setHasSubmitted(true);
+		};
 	};
 
 	const parsed = hasSubmitted ? args.schema.safeParse(formState) : undefined;
