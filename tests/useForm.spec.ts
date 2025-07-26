@@ -94,6 +94,60 @@ describe("submit, valid, and getError", () => {
 		expect(result.current.getError("username")).toBe("Invalid username");
 	});
 
+	it("In a valid form, an argument of submit is true", () => {
+		const { result } = renderHook(() =>
+			useForm({
+				initialValues: {
+					id: "",
+					others: {
+						a: "",
+						b: ""
+					},
+					password: "",
+					username: ""
+				},
+				schema
+			})
+		);
+
+		let submitValid: boolean | undefined;
+
+		act(() => {
+			result.current.submit((nextValid) => {
+				submitValid = nextValid;
+			})();
+		});
+
+		expect(submitValid).toBe(true);
+	});
+
+	it("In an invalid form, an argument of submit is false", () => {
+		const { result } = renderHook(() =>
+			useForm({
+				initialValues: {
+					id: "123456",
+					others: {
+						a: "",
+						b: ""
+					},
+					password: "",
+					username: ""
+				},
+				schema
+			})
+		);
+
+		let submitValid: boolean | undefined;
+
+		act(() => {
+			result.current.submit((nextValid) => {
+				submitValid = nextValid;
+			})();
+		});
+
+		expect(submitValid).toBe(false);
+	});
+
 	it("Invalid a child of a nested value", () => {
 		const { result } = renderHook(() =>
 			useForm({

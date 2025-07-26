@@ -1,7 +1,7 @@
 {
   "name": "@mimorisuzuko/bibi",
   "version": "0.0.0",
-  "description": "WIP",
+  "description": "State-based form hook.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mimorisuzuko/bibi.git"

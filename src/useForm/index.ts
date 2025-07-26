@@ -15,41 +15,35 @@ export const useForm = <T extends z.ZodObject>(args: {
 		_setFormState((previous) => ({ ...previous, ...patches }));
 	};
 
+	const getErrors = () => {
+		const parsed = args.schema.safeParse(formState);
+
+		if (parsed && !parsed.success) {
+			return Object.fromEntries(
+				parsed.error.issues.map(({ path, message }) => {
+					return [
+						path.map((a) => (typeof a === "number" ? `[${a}]` : a)).join("."),
+						message
+					];
+				})
+			);
+		}
+
+		return undefined;
+	};
+
 	const [hasSubmitted, setHasSubmitted] = useState(false);
-	const submit = (f: () => void) => {
+	const submit = (f: (valid: boolean) => void) => {
 		return (e?: any) => {
 			if (e instanceof Event) {
 				e.preventDefault();
 			}
 
-			f();
+			f(getErrors() === undefined);
 			setHasSubmitted(true);
 		};
 	};
-
-	const getErrors = () => {
-		if (hasSubmitted) {
-			const parsed = hasSubmitted
-				? args.schema.safeParse(formState)
-				: undefined;
-
-			if (parsed && !parsed.success) {
-				return Object.fromEntries(
-					parsed.error.issues.map(({ path, message }) => {
-						return [
-							path.map((a) => (typeof a === "number" ? `[${a}]` : a)).join("."),
-							message
-						];
-					})
-				);
-			}
-
-			return undefined;
-		}
-
-		return undefined;
-	};
-	const errors = getErrors();
+	const errors = hasSubmitted ? getErrors() : undefined;
 	const getError = (key: string) => {
 		return errors ? errors[key] : undefined;
 	};
