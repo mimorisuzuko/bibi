@@ -11,6 +11,9 @@ export const useForm = <T extends z.ZodObject>(args: {
 	const setFormState = (patches: PartialDeep<typeof formState>) => {
 		_setFormState((previous) => toMerged(previous, patches));
 	};
+	const setValues = (patches: Partial<typeof formState>) => {
+		_setFormState((previous) => ({ ...previous, ...patches }));
+	};
 
 	const [hasSubmitted, setHasSubmitted] = useState(false);
 	const submit = (f: () => void) => {
@@ -53,5 +56,12 @@ export const useForm = <T extends z.ZodObject>(args: {
 
 	const valid = errors === undefined;
 
-	return { formState, getError, setFormState, submit, valid };
+	return {
+		formState,
+		getError,
+		setFormState,
+		setValues,
+		submit,
+		valid
+	};
 };
