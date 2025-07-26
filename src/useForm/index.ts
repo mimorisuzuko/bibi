@@ -33,7 +33,7 @@ export const useForm = <T extends z.ZodObject>(args: {
 	};
 
 	const [hasSubmitted, setHasSubmitted] = useState(false);
-	const submit = (f: (valid: boolean) => void) => {
+	const createOnSubmit = (f: (valid: boolean) => void) => {
 		return (e?: any) => {
 			if (e instanceof Event) {
 				e.preventDefault();
@@ -51,11 +51,11 @@ export const useForm = <T extends z.ZodObject>(args: {
 	const valid = errors === undefined;
 
 	return {
+		createOnSubmit,
 		formState,
 		getError,
 		setFormState,
 		setValues,
-		submit,
 		valid
 	};
 };

@@ -1,6 +1,6 @@
 # `@mimorisuzuko/bibi`
 
-State-based form hook. This package name is inspired by [Murakawa Bibian](https://x.com/bibian_ct1203).
+A state-based form hook. This package name is inspired by [Murakawa Bibian](https://x.com/bibian_ct1203).
 
 ## APIs
 
@@ -10,11 +10,11 @@ import type { z } from "zod";
 const schema = z.object({ ... });
 
 const {
+    createOnSubmit,
     formState,
 	getError,
 	setFormState,
 	setValues,
-	submit,
 	valid
 } = useForm({ schema: { ... }, initialValues: { ... } });
 ```
@@ -25,7 +25,7 @@ Return the current state.
 
 ### `getError`
 
-Get an error by `getError(path: string)` after calling the `submit`.
+Get an error by `getError(path: string)` after calling the `createOnSubmit`.
 
 ### `setFormState`
 
@@ -35,10 +35,10 @@ Deeply merge the `formState`.
 
 Set the values the `formState`.
 
-### `submit`
+### `createOnSubmit`
 
 ```tsx
-<form onSubmit={submit((valid) => {
+<form onSubmit={createOnSubmit((valid) => {
     if (valid) {
         // The `formState` matches the `schema`
     } else {
@@ -51,4 +51,4 @@ Set the values the `formState`.
 
 ### `valid`
 
-Return `true` if the `submit` has not been called or the form has no errors after calling the `submit`.
+Return `true` if the `createOnSubmit` has not been called or the form has no errors after calling the `createOnSubmit`.

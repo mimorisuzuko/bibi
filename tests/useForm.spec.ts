@@ -24,7 +24,7 @@ const schema = z.object({
 	username: z.string().max(5, "Invalid username")
 });
 
-describe("submit, valid, and getError", () => {
+describe("createOnSubmit, valid, and getError", () => {
 	it("No erros", () => {
 		const { result } = renderHook(() =>
 			useForm({
@@ -42,7 +42,7 @@ describe("submit, valid, and getError", () => {
 		);
 
 		act(() => {
-			result.current.submit(() => {})();
+			result.current.createOnSubmit(() => {})();
 		});
 
 		expect(result.current.valid).toBe(true);
@@ -84,7 +84,7 @@ describe("submit, valid, and getError", () => {
 		);
 
 		act(() => {
-			result.current.submit(() => {})();
+			result.current.createOnSubmit(() => {})();
 		});
 
 		expect(result.current.valid).toBe(false);
@@ -113,7 +113,7 @@ describe("submit, valid, and getError", () => {
 		let submitValid: boolean | undefined;
 
 		act(() => {
-			result.current.submit((nextValid) => {
+			result.current.createOnSubmit((nextValid) => {
 				submitValid = nextValid;
 			})();
 		});
@@ -140,7 +140,7 @@ describe("submit, valid, and getError", () => {
 		let submitValid: boolean | undefined;
 
 		act(() => {
-			result.current.submit((nextValid) => {
+			result.current.createOnSubmit((nextValid) => {
 				submitValid = nextValid;
 			})();
 		});
@@ -165,7 +165,7 @@ describe("submit, valid, and getError", () => {
 		);
 
 		act(() => {
-			result.current.submit(() => {})();
+			result.current.createOnSubmit(() => {})();
 		});
 
 		expect(result.current.valid).toBe(false);
@@ -193,7 +193,7 @@ describe("submit, valid, and getError", () => {
 		);
 
 		act(() => {
-			result.current.submit(() => {})();
+			result.current.createOnSubmit(() => {})();
 		});
 
 		expect(result.current.valid).toBe(false);
