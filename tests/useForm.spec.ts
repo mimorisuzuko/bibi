@@ -12,7 +12,8 @@ const nestedSchema = z.object({
 	others: z
 		.object({
 			a: z.string().max(5, "Invalid others.a"),
-			b: z.string().max(5, "Invalid others.b")
+			b: z.string().max(5, "Invalid others.b"),
+			c: z.array(z.string()).nonempty()
 		})
 		.check((ctx) => {
 			if (ctx.value.a.length + ctx.value.b.length > 9) {
@@ -20,7 +21,7 @@ const nestedSchema = z.object({
 					code: "custom",
 					input: ctx.value,
 					message: "a.length + ctx.value.b.length > 9",
-					path: ["others"]
+					path: []
 				});
 			}
 		}),
@@ -120,7 +121,8 @@ describe("Nested values", () => {
 				initialValues: {
 					others: {
 						a: "123456",
-						b: ""
+						b: "",
+						c: ["aa"]
 					},
 					password: "",
 					username: ""
@@ -134,7 +136,7 @@ describe("Nested values", () => {
 		});
 
 		expect(result.current.valid).toBe(false);
-		expect(result.current.getError("others")).toBe("Invalid others.a");
+		expect(result.current.getError("others.a")).toBe("Invalid others.a");
 	});
 
 	it("Invalid a nested value itself", () => {
@@ -143,7 +145,8 @@ describe("Nested values", () => {
 				initialValues: {
 					others: {
 						a: "12345",
-						b: "12345"
+						b: "12345",
+						c: [""]
 					},
 					password: "",
 					username: ""

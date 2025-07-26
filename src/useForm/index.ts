@@ -24,16 +24,34 @@ export const useForm = <T extends z.ZodObject>(args: {
 		};
 	};
 
-	const parsed = hasSubmitted ? args.schema.safeParse(formState) : undefined;
-	const getError = (key: keyof typeof formState) => {
-		if (parsed && !parsed.success) {
-			return parsed.error.issues.find((a) => a.path[0] === key)?.message;
+	const getErrors = () => {
+		if (hasSubmitted) {
+			const parsed = hasSubmitted
+				? args.schema.safeParse(formState)
+				: undefined;
+
+			if (parsed && !parsed.success) {
+				return Object.fromEntries(
+					parsed.error.issues.map(({ path, message }) => {
+						return [
+							path.map((a) => (typeof a === "number" ? `[${a}]` : a)).join("."),
+							message
+						];
+					})
+				);
+			}
+
+			return undefined;
 		}
 
 		return undefined;
 	};
+	const errors = getErrors();
+	const getError = (key: string) => {
+		return errors ? errors[key] : undefined;
+	};
 
-	const valid = parsed === undefined || parsed.success;
+	const valid = errors === undefined;
 
 	return { formState, getError, setFormState, submit, valid };
 };
