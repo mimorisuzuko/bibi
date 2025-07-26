@@ -11,7 +11,9 @@
     "name": "Hiroki Usuba",
     "url": "https://mimorisuzu.co"
   },
-  "scripts": {},
+  "scripts": {
+    "build": "bunx tsgo"
+  },
   "exports": {
     ".": "./dist/index.js"
   },
