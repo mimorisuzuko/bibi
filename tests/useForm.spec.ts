@@ -48,6 +48,16 @@ describe("createOnSubmit, valid, and getError", () => {
 		});
 
 		expect(result.current.valid).toBe(true);
+		expect(result.current.formState).toStrictEqual({
+			id: "",
+			others: {
+				a: "",
+				b: "",
+				c: ["c"]
+			},
+			password: "",
+			username: ""
+		});
 	});
 
 	it("Invalid values before submitting", () => {
