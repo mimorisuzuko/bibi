@@ -8,7 +8,8 @@ const schema = z.object({
 	others: z
 		.object({
 			a: z.string().max(5, "Invalid others.a"),
-			b: z.string().max(5, "Invalid others.b")
+			b: z.string().max(5, "Invalid others.b"),
+			c: z.array(z.string().nonempty("Invalid others.c"))
 		})
 		.check((ctx) => {
 			if (ctx.value.a.length + ctx.value.b.length > 9) {
@@ -32,7 +33,8 @@ describe("createOnSubmit, valid, and getError", () => {
 					id: "",
 					others: {
 						a: "",
-						b: ""
+						b: "",
+						c: ["c"]
 					},
 					password: "",
 					username: ""
@@ -55,7 +57,8 @@ describe("createOnSubmit, valid, and getError", () => {
 					id: "",
 					others: {
 						a: "",
-						b: ""
+						b: "",
+						c: ["c"]
 					},
 					password: "123456",
 					username: "123456"
@@ -74,7 +77,8 @@ describe("createOnSubmit, valid, and getError", () => {
 					id: "",
 					others: {
 						a: "",
-						b: ""
+						b: "",
+						c: ["c"]
 					},
 					password: "123456",
 					username: "123456"
@@ -101,7 +105,8 @@ describe("createOnSubmit, valid, and getError", () => {
 					id: "",
 					others: {
 						a: "",
-						b: ""
+						b: "",
+						c: ["c"]
 					},
 					password: "",
 					username: ""
@@ -128,7 +133,8 @@ describe("createOnSubmit, valid, and getError", () => {
 					id: "123456",
 					others: {
 						a: "",
-						b: ""
+						b: "",
+						c: ["c"]
 					},
 					password: "",
 					username: ""
@@ -155,7 +161,8 @@ describe("createOnSubmit, valid, and getError", () => {
 					id: "",
 					others: {
 						a: "123456",
-						b: ""
+						b: "",
+						c: [""]
 					},
 					password: "",
 					username: ""
@@ -172,6 +179,7 @@ describe("createOnSubmit, valid, and getError", () => {
 		expect(result.current.getError("id")).toBeUndefined();
 		expect(result.current.getError("others")).toBeUndefined();
 		expect(result.current.getError("others.a")).toBe("Invalid others.a");
+		expect(result.current.getError("others.c.0")).toBe("Invalid others.c");
 		expect(result.current.getError("password")).toBeUndefined();
 		expect(result.current.getError("username")).toBeUndefined();
 	});
@@ -183,7 +191,8 @@ describe("createOnSubmit, valid, and getError", () => {
 					id: "",
 					others: {
 						a: "12345",
-						b: "12345"
+						b: "12345",
+						c: ["c"]
 					},
 					password: "",
 					username: ""
@@ -214,7 +223,8 @@ describe("Setter", () => {
 					id: "",
 					others: {
 						a: "",
-						b: ""
+						b: "",
+						c: ["c"]
 					},
 					password: "",
 					username: ""
@@ -231,7 +241,8 @@ describe("Setter", () => {
 			id: "",
 			others: {
 				a: "",
-				b: ""
+				b: "",
+				c: ["c"]
 			},
 			password: "1",
 			username: ""
@@ -245,7 +256,8 @@ describe("Setter", () => {
 					id: "",
 					others: {
 						a: "",
-						b: ""
+						b: "",
+						c: ["c"]
 					},
 					password: "",
 					username: ""
@@ -258,7 +270,8 @@ describe("Setter", () => {
 			result.current.setValues({
 				others: {
 					a: "a",
-					b: "b"
+					b: "b",
+					c: ["c"]
 				}
 			});
 		});
@@ -267,7 +280,8 @@ describe("Setter", () => {
 			id: "",
 			others: {
 				a: "a",
-				b: "b"
+				b: "b",
+				c: ["c"]
 			},
 			password: "",
 			username: ""

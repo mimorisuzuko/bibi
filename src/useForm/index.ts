@@ -21,10 +21,7 @@ export const useForm = <T extends z.ZodObject>(args: {
 		if (parsed && !parsed.success) {
 			return Object.fromEntries(
 				parsed.error.issues.map(({ path, message }) => {
-					return [
-						path.map((a) => (typeof a === "number" ? `[${a}]` : a)).join("."),
-						message
-					];
+					return [path.join("."), message];
 				})
 			);
 		}
