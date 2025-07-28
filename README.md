@@ -10,7 +10,7 @@ import type { z } from "zod";
 const schema = z.object({ ... });
 
 const {
-    createOnSubmit,
+	createOnSubmit,
 	formState,
 	getError,
 	setFormState,
@@ -36,7 +36,7 @@ Set the values the `formState`.
 
 Get an error by `getError(key: string)` after calling the `createOnSubmit`.
 
-### `setImmediatelyValidatedKeys`
+### `setImmediatelyValidatedKey`
 
 If you want to validate the `key` before calling the `createOnSubmit`, you call the `setImmediatelyValidatedKey(key)` and will be able to get the error of the `key`.
 
