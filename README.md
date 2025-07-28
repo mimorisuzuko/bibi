@@ -1,4 +1,4 @@
-# `@mimorisuzuko/bibi`
+# [`@mimorisuzuko/bibi`](https://www.npmjs.com/package/@mimorisuzuko/bibi)
 
 A state-based form hook. This package name is inspired by [Murakawa Bibian](https://x.com/bibian_ct1203).
 
