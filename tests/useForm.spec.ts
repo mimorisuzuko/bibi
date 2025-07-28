@@ -25,7 +25,7 @@ const schema = z.object({
 	username: z.string().max(5, "Invalid username")
 });
 
-describe("createOnSubmit, valid, and getError", () => {
+describe("createOnSubmit, getError, setImmediatelyValidatedKey, and valid", () => {
 	it("No erros", () => {
 		const { result } = renderHook(() =>
 			useForm({
@@ -60,7 +60,7 @@ describe("createOnSubmit, valid, and getError", () => {
 		});
 	});
 
-	it("Invalid values before submitting", () => {
+	it("Invalid values before submitting a form", () => {
 		const { result } = renderHook(() =>
 			useForm({
 				initialValues: {
@@ -80,7 +80,7 @@ describe("createOnSubmit, valid, and getError", () => {
 		expect(result.current.valid).toBe(true);
 	});
 
-	it("Invalid values after submitting", () => {
+	it("Invalid values after submitting a form", () => {
 		const { result } = renderHook(() =>
 			useForm({
 				initialValues: {
@@ -222,6 +222,73 @@ describe("createOnSubmit, valid, and getError", () => {
 		);
 		expect(result.current.getError("password")).toBeUndefined();
 		expect(result.current.getError("username")).toBeUndefined();
+	});
+
+	it("setImmediatelyValidatedKey before submitting a form", () => {
+		const { result } = renderHook(() =>
+			useForm({
+				initialValues: {
+					id: "",
+					others: {
+						a: "",
+						b: "",
+						c: ["c"]
+					},
+					password: "123456",
+					username: "123456"
+				},
+				schema
+			})
+		);
+
+		act(() => {
+			result.current.setImmediatelyValidatedKey("password");
+		});
+
+		expect(result.current.valid).toBe(false);
+		expect(result.current.getError("id")).toBeUndefined();
+		expect(result.current.getError("others")).toBeUndefined();
+		expect(result.current.getError("password")).toBe("Invalid password");
+		expect(result.current.getError("username")).toBeUndefined();
+
+		act(() => {
+			result.current.setImmediatelyValidatedKey("password", false);
+		});
+
+		expect(result.current.valid).toBe(true);
+		expect(result.current.getError("id")).toBeUndefined();
+		expect(result.current.getError("others")).toBeUndefined();
+		expect(result.current.getError("password")).toBeUndefined();
+		expect(result.current.getError("username")).toBeUndefined();
+	});
+
+	it("setImmediatelyValidatedKey after submitting a form", () => {
+		const { result } = renderHook(() =>
+			useForm({
+				initialValues: {
+					id: "",
+					others: {
+						a: "",
+						b: "",
+						c: ["c"]
+					},
+					password: "123456",
+					username: "123456"
+				},
+				schema
+			})
+		);
+
+		act(() => {
+			result.current.createOnSubmit(() => {})();
+			result.current.setImmediatelyValidatedKey("password");
+		});
+
+		expect(result.current.valid).toBe(false);
+		expect(result.current.getError("id")).toBeUndefined();
+		expect(result.current.getError("others")).toBeUndefined();
+		expect(result.current.getError("password")).toBe("Invalid password");
+		expect(result.current.getError("username")).toBe("Invalid username");
 	});
 });
 

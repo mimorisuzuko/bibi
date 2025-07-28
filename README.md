@@ -11,9 +11,10 @@ const schema = z.object({ ... });
 
 const {
     createOnSubmit,
-    formState,
+	formState,
 	getError,
 	setFormState,
+	setImmediatelyValidatedKey,
 	setValues,
 	valid
 } = useForm({ schema: { ... }, initialValues: { ... } });
@@ -23,10 +24,6 @@ const {
 
 Return the current state.
 
-### `getError`
-
-Get an error by `getError(path: string)` after calling the `createOnSubmit`.
-
 ### `setFormState`
 
 Deeply merge the `formState`.
@@ -34,6 +31,14 @@ Deeply merge the `formState`.
 ### `setValues`
 
 Set the values the `formState`.
+
+### `getError`
+
+Get an error by `getError(key: string)` after calling the `createOnSubmit`.
+
+### `setImmediatelyValidatedKeys`
+
+If you want to validate the `key` before calling the `createOnSubmit`, you call the `setImmediatelyValidatedKey(key)` and will be able to get the error of the `key`.
 
 ### `createOnSubmit`
 

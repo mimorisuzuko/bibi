@@ -6,7 +6,8 @@
       "outDir": "dist",
       "declaration": true,
       "moduleResolution": "bundler",
-      "module": "esnext"
+      "module": "esnext",
+      "lib": ["ESNext"]
     },
     "include": ["src/**/*.ts"],
     "exclude": ["dist"]

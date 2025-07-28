@@ -15,15 +15,34 @@ export const useForm = <T extends z.ZodObject>(args: {
 		_setFormState((previous) => ({ ...previous, ...patches }));
 	};
 
-	const getErrors = () => {
+	const [immediatelyValidatedKeys, setImmediatelyValidatedKeys] = useState<
+		string[]
+	>([]);
+	const setImmediatelyValidatedKey = (key: string, push = true) => {
+		const index = immediatelyValidatedKeys.indexOf(key);
+
+		if (push && index === -1) {
+			setImmediatelyValidatedKeys((previous) => [...previous, key]);
+		} else if (!push && index >= -1) {
+			setImmediatelyValidatedKeys(immediatelyValidatedKeys.toSpliced(index, 1));
+		}
+	};
+
+	const getErrors = (specifiedKeys?: string[]) => {
 		const parsed = args.schema.safeParse(formState);
 
 		if (parsed && !parsed.success) {
-			return Object.fromEntries(
-				parsed.error.issues.map(({ path, message }) => {
-					return [path.join("."), message];
-				})
-			);
+			const entries: [key: string, message: string][] = [];
+
+			for (const { path, message } of parsed.error.issues) {
+				const key = path.join(".");
+
+				if (specifiedKeys === undefined || specifiedKeys.includes(key)) {
+					entries.push([path.join("."), message]);
+				}
+			}
+
+			return entries.length === 0 ? undefined : Object.fromEntries(entries);
 		}
 
 		return undefined;
@@ -40,7 +59,9 @@ export const useForm = <T extends z.ZodObject>(args: {
 			setHasSubmitted(true);
 		};
 	};
-	const errors = hasSubmitted ? getErrors() : undefined;
+	const errors = hasSubmitted
+		? getErrors()
+		: getErrors(immediatelyValidatedKeys);
 	const getError = (key: string) => {
 		return errors ? errors[key] : undefined;
 	};
@@ -52,6 +73,7 @@ export const useForm = <T extends z.ZodObject>(args: {
 		formState,
 		getError,
 		setFormState,
+		setImmediatelyValidatedKey,
 		setValues,
 		valid
 	};
