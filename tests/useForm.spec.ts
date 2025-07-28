@@ -25,7 +25,7 @@ const schema = z.object({
 	username: z.string().max(5, "Invalid username")
 });
 
-describe("createOnSubmit, getError, setImmediatelyValidatedKey, and valid", () => {
+describe("createOnSubmit, getError, and valid", () => {
 	it("No erros", () => {
 		const { result } = renderHook(() =>
 			useForm({
@@ -223,8 +223,10 @@ describe("createOnSubmit, getError, setImmediatelyValidatedKey, and valid", () =
 		expect(result.current.getError("password")).toBeUndefined();
 		expect(result.current.getError("username")).toBeUndefined();
 	});
+});
 
-	it("setImmediatelyValidatedKey before submitting a form", () => {
+describe("setImmediatelyValidatedKey", () => {
+	it("Before submitting a form", () => {
 		const { result } = renderHook(() =>
 			useForm({
 				initialValues: {
@@ -262,7 +264,7 @@ describe("createOnSubmit, getError, setImmediatelyValidatedKey, and valid", () =
 		expect(result.current.getError("username")).toBeUndefined();
 	});
 
-	it("setImmediatelyValidatedKey after submitting a form", () => {
+	it("After submitting a form", () => {
 		const { result } = renderHook(() =>
 			useForm({
 				initialValues: {
