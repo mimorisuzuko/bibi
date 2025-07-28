@@ -313,17 +313,17 @@ describe("Setter", () => {
 		);
 
 		act(() => {
-			result.current.setFormState({ password: "1" });
+			result.current.setFormState({ others: { a: "a" } });
 		});
 
 		expect(result.current.formState).toStrictEqual({
 			id: "",
 			others: {
-				a: "",
+				a: "a",
 				b: "",
 				c: ["c"]
 			},
-			password: "1",
+			password: "",
 			username: ""
 		});
 	});
