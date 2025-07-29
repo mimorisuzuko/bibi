@@ -32,7 +32,16 @@
 			},
 			"recommended": true,
 			"style": {
-				"noNonNullAssertion": "off"
+				"noNonNullAssertion": "off",
+				"useImportType": {
+					"level": "error",
+					"options": {
+						"style": "separatedType"
+					}
+				}
+			},
+			"suspicious": {
+				"noExplicitAny": "off"
 			}
 		}
 	},
