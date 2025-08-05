@@ -58,13 +58,13 @@ export const useForm = <T extends z.ZodObject>(args: {
 
 	const [_hasSubmitted, _setHasSubmitted] = useState(false);
 	const createOnSubmit = useCallback(
-		(f: (valid: boolean) => void) => {
-			return (e?: any) => {
+		(f: (valid: boolean) => Promise<void> | void) => {
+			return async (e?: any) => {
 				if (e instanceof Event) {
 					e.preventDefault();
 				}
 
-				f(_getErrors() === undefined);
+				await f(_getErrors() === undefined);
 				_setHasSubmitted(true);
 			};
 		},

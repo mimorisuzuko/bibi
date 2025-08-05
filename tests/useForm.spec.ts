@@ -80,7 +80,7 @@ describe("createOnSubmit, getError, and valid", () => {
 		expect(result.current.valid).toBe(true);
 	});
 
-	it("Invalid values after submitting a form", () => {
+	it("Invalid values after submitting a form", async () => {
 		const { result } = renderHook(() =>
 			useForm({
 				initialValues: {
@@ -97,8 +97,8 @@ describe("createOnSubmit, getError, and valid", () => {
 			})
 		);
 
-		act(() => {
-			result.current.createOnSubmit(() => {})();
+		await act(async () => {
+			await result.current.createOnSubmit(() => {})();
 		});
 
 		expect(result.current.valid).toBe(false);
@@ -108,7 +108,7 @@ describe("createOnSubmit, getError, and valid", () => {
 		expect(result.current.getError("username")).toBe("Invalid username");
 	});
 
-	it("In a valid form, an argument of submit is true", () => {
+	it("In a valid form, an argument of submit is true", async () => {
 		const { result } = renderHook(() =>
 			useForm({
 				initialValues: {
@@ -127,8 +127,8 @@ describe("createOnSubmit, getError, and valid", () => {
 
 		let submitValid: boolean | undefined;
 
-		act(() => {
-			result.current.createOnSubmit((nextValid) => {
+		await act(async () => {
+			await result.current.createOnSubmit((nextValid) => {
 				submitValid = nextValid;
 			})();
 		});
@@ -136,7 +136,7 @@ describe("createOnSubmit, getError, and valid", () => {
 		expect(submitValid).toBe(true);
 	});
 
-	it("In an invalid form, an argument of submit is false", () => {
+	it("In an invalid form, an argument of submit is false", async () => {
 		const { result } = renderHook(() =>
 			useForm({
 				initialValues: {
@@ -155,8 +155,8 @@ describe("createOnSubmit, getError, and valid", () => {
 
 		let submitValid: boolean | undefined;
 
-		act(() => {
-			result.current.createOnSubmit((nextValid) => {
+		await act(async () => {
+			await result.current.createOnSubmit((nextValid) => {
 				submitValid = nextValid;
 			})();
 		});
@@ -164,7 +164,7 @@ describe("createOnSubmit, getError, and valid", () => {
 		expect(submitValid).toBe(false);
 	});
 
-	it("Invalid a child of a nested value", () => {
+	it("Invalid a child of a nested value", async () => {
 		const { result } = renderHook(() =>
 			useForm({
 				initialValues: {
@@ -181,8 +181,8 @@ describe("createOnSubmit, getError, and valid", () => {
 			})
 		);
 
-		act(() => {
-			result.current.createOnSubmit(() => {})();
+		await act(async () => {
+			await result.current.createOnSubmit(() => {})();
 		});
 
 		expect(result.current.valid).toBe(false);
@@ -194,7 +194,7 @@ describe("createOnSubmit, getError, and valid", () => {
 		expect(result.current.getError("username")).toBeUndefined();
 	});
 
-	it("Invalid a nested value itself", () => {
+	it("Invalid a nested value itself", async () => {
 		const { result } = renderHook(() =>
 			useForm({
 				initialValues: {
@@ -211,8 +211,8 @@ describe("createOnSubmit, getError, and valid", () => {
 			})
 		);
 
-		act(() => {
-			result.current.createOnSubmit(() => {})();
+		await act(async () => {
+			await result.current.createOnSubmit(() => {})();
 		});
 
 		expect(result.current.valid).toBe(false);
@@ -264,7 +264,7 @@ describe("setImmediatelyValidatedKey", () => {
 		expect(result.current.getError("username")).toBeUndefined();
 	});
 
-	it("After submitting a form", () => {
+	it("After submitting a form", async () => {
 		const { result } = renderHook(() =>
 			useForm({
 				initialValues: {
@@ -281,8 +281,8 @@ describe("setImmediatelyValidatedKey", () => {
 			})
 		);
 
-		act(() => {
-			result.current.createOnSubmit(() => {})();
+		await act(async () => {
+			await result.current.createOnSubmit(() => {})();
 			result.current.setImmediatelyValidatedKey("password");
 		});
 
