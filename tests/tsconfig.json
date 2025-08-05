@@ -1,5 +1,7 @@
 {
-	"compilerOptions": {},
+	"compilerOptions": {
+		"jsx": "preserve"
+	},
 	"extends": "../tsconfig.json",
-	"include": ["*.spec.ts"]
+	"include": ["*.spec.tsx"]
 }
