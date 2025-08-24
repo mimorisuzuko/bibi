@@ -1,5 +1,8 @@
 import { describe, expect, it } from "bun:test";
 import { act, renderHook } from "@testing-library/react";
+import { Suspense } from "react";
+import ReactDOMClient from "react-dom/client";
+import ReactTestUtils from "react-dom/test-utils";
 import { z } from "zod";
 import { useForm } from "../src";
 
@@ -58,6 +61,50 @@ describe("createOnSubmit, getError, and valid", () => {
 			password: "",
 			username: ""
 		});
+	});
+
+	it("Asynchronously set initialValues", async () => {
+		const container = document.createElement("div");
+		const initialValues = {
+			id: "promise",
+			others: {
+				a: "",
+				b: "",
+				c: [""]
+			},
+			password: "",
+			username: ""
+		} as const satisfies z.infer<typeof schema>;
+		document.body.appendChild(container);
+
+		function Child({
+			initialValuesPromise
+		}: {
+			initialValuesPromise: Promise<z.infer<typeof schema>>;
+		}) {
+			const { formState } = useForm({
+				initialValues: initialValuesPromise,
+				schema
+			});
+
+			return <div>{JSON.stringify(formState)}</div>;
+		}
+
+		function Container() {
+			const initialValuesPromise = Promise.resolve(initialValues);
+
+			return (
+				<Suspense fallback="loading...">
+					<Child initialValuesPromise={initialValuesPromise} />
+				</Suspense>
+			);
+		}
+
+		await act(async () => {
+			ReactDOMClient.createRoot(container).render(<Container />);
+		});
+
+		expect(container.innerText).toBe(JSON.stringify(initialValues));
 	});
 
 	it("Invalid values before submitting a form", () => {

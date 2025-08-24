@@ -1,13 +1,17 @@
 import { toMerged } from "es-toolkit";
-import { useCallback, useState } from "react";
+import { use, useCallback, useState } from "react";
 import type { PartialDeep } from "type-fest";
 import type { z } from "zod";
 
 export const useForm = <T extends z.ZodObject>(args: {
 	schema: T;
-	initialValues: z.infer<T>;
+	initialValues: z.infer<T> | Promise<z.infer<T>>;
 }) => {
-	const [formState, _setFormState] = useState(args.initialValues);
+	const [formState, _setFormState] = useState(
+		args.initialValues instanceof Promise
+			? use(args.initialValues)
+			: args.initialValues
+	);
 	const setFormState = useCallback((patches: PartialDeep<typeof formState>) => {
 		_setFormState((previous) => toMerged(previous, patches));
 	}, []);
