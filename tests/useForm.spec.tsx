@@ -1,8 +1,7 @@
 import { describe, expect, it } from "bun:test";
-import { act, renderHook } from "@testing-library/react";
+import { act, renderHook, waitFor } from "@testing-library/react";
 import { Suspense } from "react";
 import ReactDOMClient from "react-dom/client";
-import ReactTestUtils from "react-dom/test-utils";
 import { z } from "zod";
 import { useForm } from "../src";
 
@@ -91,7 +90,13 @@ describe("createOnSubmit, getError, and valid", () => {
 		}
 
 		function Container() {
-			const initialValuesPromise = Promise.resolve(initialValues);
+			const initialValuesPromise = new Promise<z.infer<typeof schema>>(
+				(resolve) => {
+					setTimeout(() => {
+						resolve(initialValues);
+					}, 100);
+				}
+			);
 
 			return (
 				<Suspense fallback="loading...">
@@ -104,7 +109,9 @@ describe("createOnSubmit, getError, and valid", () => {
 			ReactDOMClient.createRoot(container).render(<Container />);
 		});
 
-		expect(container.innerText).toBe(JSON.stringify(initialValues));
+		await waitFor(() => {
+			return expect(container.innerText).toBe(JSON.stringify(initialValues));
+		});
 	});
 
 	it("Invalid values before submitting a form", () => {
